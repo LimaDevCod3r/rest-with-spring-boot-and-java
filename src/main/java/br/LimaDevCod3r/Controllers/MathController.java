@@ -1,20 +1,20 @@
 package br.LimaDevCod3r.Controllers;
 
+import br.LimaDevCod3r.Exceptions.UnsupportedMathOperationException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/math")
+@RequestMapping("/math") // Define o path base para o controlador
 public class MathController {
 
-    // http://localhost:8080/math/sum/3/5
     @RequestMapping(value="/sum/{numberOne}/{numberTwo}", method= RequestMethod.GET)
     public Double sum(@PathVariable("numberOne") String numberOne,
                       @PathVariable("numberTwo") String numberTwo) throws Exception {
         if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
-            throw new Exception();
+            throw new UnsupportedMathOperationException("Please set a numeric value!");
         }
         return covertToDouble(numberOne) + covertToDouble(numberTwo);
     }
