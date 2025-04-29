@@ -17,6 +17,7 @@ public class PersonService {
     private Logger logger = Logger.getLogger(PersonService.class.getName());
 
     public List<Person> findAll() {
+        logger.info("Find All People");
         List<Person> persons = new ArrayList<>();
 
         for (int i = 0; i < 8; i++) {
@@ -48,6 +49,21 @@ public class PersonService {
         person.setGender("Masculino");
 
         return person;
+    }
+
+    public Person create(Person person) {
+        logger.info("creating one Person");
+        return person;
+    }
+
+    public Person update(Person person) {
+        logger.info("updating one Person");
+        return person;
+    }
+
+    public void delete(String id) {
+        logger.info("deleting one Person");
+
     }
 
 }
