@@ -2,6 +2,7 @@ package br.LimaDevCod3r.Model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Person implements Serializable {
 
@@ -19,6 +20,8 @@ public class Person implements Serializable {
 
     public Person() {
     }
+
+
 
     public Long getId() {
         return id;
