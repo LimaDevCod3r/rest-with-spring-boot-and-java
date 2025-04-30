@@ -1,56 +1,53 @@
 package br.LimaDevCod3r.Services;
 
+import br.LimaDevCod3r.Exceptions.ResourceNotFoundException;
 import br.LimaDevCod3r.Model.Person;
+import br.LimaDevCod3r.Repositories.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
 @Service
 public class PersonService {
 
-    // Simular o banco de dados
-    private final Map<Long, Person> personDB = new HashMap<>();
+    @Autowired
+    private PersonRepository personRepository;
 
-    private final AtomicLong counter = new AtomicLong();
-    // Cria logger para informação dessa clase
-    private Logger logger = Logger.getLogger(PersonService.class.getName());
+    private final Logger logger = Logger.getLogger(PersonService.class.getName());
 
     public List<Person> findAll() {
         logger.info("Find All People");
-        return new ArrayList<>(personDB.values());
+        return personRepository.findAll();
     }
-
 
     public Person findById(Long id) {
         logger.info("Find One Person");
-        return personDB.get(id);
+        return personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this id"));
     }
 
     public Person create(Person person) {
-        long id = counter.incrementAndGet();
-        person.setId(id);
-        personDB.put(id, person);
-        logger.info("Created person with ID " + id);
-        return person;
+        logger.info("Created person with ID ");
+        return personRepository.save(person);
     }
 
     public Person update(Person person) {
         logger.info("Updating person with ID " + person.getId());
 
-        if (person.getId() == null || !personDB.containsKey(person.getId())) {
-            throw new RuntimeException("Person not found");
-        }
-        personDB.put(person.getId(), person);
-        return person;
+        var entity = this.findById(person.getId());
+
+        entity.setFirstname(person.getFirstname());
+        entity.setLastname(person.getLastname());
+        entity.setAddress(person.getAddress());
+        entity.setGender(person.getGender());
+        return personRepository.save(entity);
     }
 
     public void delete(Long id) {
         logger.info("Deleting person with ID " + id);
-        personDB.remove(id);
+        var entity = this.findById(id);
+        personRepository.delete(entity);
     }
 }
