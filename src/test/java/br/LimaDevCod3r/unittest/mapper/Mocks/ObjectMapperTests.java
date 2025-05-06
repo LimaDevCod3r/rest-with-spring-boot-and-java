@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import br.LimaDevCod3r.Dto.PersonDTO;
+import br.LimaDevCod3r.Dto.v1.PersonDTO;
 import br.LimaDevCod3r.Model.Person;
 
 import org.junit.jupiter.api.BeforeEach;

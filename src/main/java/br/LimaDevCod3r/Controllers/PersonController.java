@@ -1,6 +1,7 @@
 package br.LimaDevCod3r.Controllers;
 
-import br.LimaDevCod3r.Dto.PersonDTO;
+import br.LimaDevCod3r.Dto.v1.PersonDTO;
+import br.LimaDevCod3r.Dto.v2.PersonDTOV2;
 import br.LimaDevCod3r.Services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -30,6 +31,12 @@ public class PersonController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public PersonDTO create(@RequestBody() PersonDTO person) {
         return this.service.create(person);
+    }
+
+    @PostMapping(value = "/v2", consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public PersonDTOV2 createV2(@RequestBody() PersonDTOV2 person) {
+        return this.service.createV2(person);
     }
 
 

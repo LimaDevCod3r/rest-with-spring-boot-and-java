@@ -1,6 +1,6 @@
 package br.LimaDevCod3r.unittest.mapper.Mocks;
 
-import br.LimaDevCod3r.Dto.PersonDTO;
+import br.LimaDevCod3r.Dto.v1.PersonDTO;
 import br.LimaDevCod3r.Model.Person;
 
 import java.util.ArrayList;

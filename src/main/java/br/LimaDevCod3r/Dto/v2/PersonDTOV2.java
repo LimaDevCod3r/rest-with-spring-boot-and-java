@@ -1,8 +1,9 @@
-package br.LimaDevCod3r.Dto;
+package br.LimaDevCod3r.Dto.v2;
 
+import java.util.Date;
 import java.util.Objects;
 
-public class PersonDTO {
+public class PersonDTOV2 {
     private Long id;
 
     private String firstname;
@@ -13,7 +14,9 @@ public class PersonDTO {
 
     private String gender;
 
-    public PersonDTO() {
+    private Date birthday;
+
+    public PersonDTOV2() {
     }
 
     public Long getId() {
@@ -56,14 +59,22 @@ public class PersonDTO {
         this.gender = gender;
     }
 
+    public Date getBithday() {
+        return birthday;
+    }
+
+    public void setBithday(Date bithday) {
+        this.birthday = bithday;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof PersonDTO personDTO)) return false;
-        return Objects.equals(id, personDTO.id) && Objects.equals(firstname, personDTO.firstname) && Objects.equals(lastname, personDTO.lastname) && Objects.equals(address, personDTO.address) && Objects.equals(gender, personDTO.gender);
+        if (!(o instanceof PersonDTOV2 that)) return false;
+        return Objects.equals(id, that.id) && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname) && Objects.equals(address, that.address) && Objects.equals(gender, that.gender) && Objects.equals(birthday, that.birthday);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstname, lastname, address, gender);
+        return Objects.hash(id, firstname, lastname, address, gender, birthday);
     }
 }
