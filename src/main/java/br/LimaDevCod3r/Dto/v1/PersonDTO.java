@@ -1,25 +1,30 @@
 package br.LimaDevCod3r.Dto.v1;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import br.LimaDevCod3r.Serializer.GenderSerializer;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import java.util.Date;
 import java.util.Objects;
 
-@JsonPropertyOrder({"id","firstname","lastname","gender","address",})
+
 public class PersonDTO {
     private Long id;
 
-    @JsonProperty("nome")
+
     private String firstname;
 
-    @JsonProperty("sobrenome")
+
     private String lastname;
 
-    @JsonProperty("endereço")
+
     private String address;
 
-    @JsonIgnore
+    @JsonFormat(pattern = "dd/MM/yyyy") // formata a data no padrão brasileiro
+    private Date birthday;
+
+    @JsonSerialize(using = GenderSerializer.class)
     private String gender;
 
     public PersonDTO() {
@@ -65,14 +70,22 @@ public class PersonDTO {
         this.gender = gender;
     }
 
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof PersonDTO personDTO)) return false;
-        return Objects.equals(id, personDTO.id) && Objects.equals(firstname, personDTO.firstname) && Objects.equals(lastname, personDTO.lastname) && Objects.equals(address, personDTO.address) && Objects.equals(gender, personDTO.gender);
+        return Objects.equals(id, personDTO.id) && Objects.equals(firstname, personDTO.firstname) && Objects.equals(lastname, personDTO.lastname) && Objects.equals(address, personDTO.address) && Objects.equals(birthday, personDTO.birthday) && Objects.equals(gender, personDTO.gender);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstname, lastname, address, gender);
+        return Objects.hash(id, firstname, lastname, address, birthday, gender);
     }
 }
