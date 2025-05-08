@@ -2,22 +2,26 @@ package br.LimaDevCod3r.Dto.v1;
 
 
 import br.LimaDevCod3r.Serializer.GenderSerializer;
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.Date;
 import java.util.Objects;
 
-
+@JsonFilter("PersonFilter")
 public class PersonDTO {
     private Long id;
 
 
     private String firstname;
 
-
+    @JsonInclude(JsonInclude.Include.NON_NULL) // Não renderizar ser o campo for null
     private String lastname;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY) // Não renderizar ser o campo for vazio
+    private String phoneNumber;
 
     private String address;
 
@@ -26,6 +30,8 @@ public class PersonDTO {
 
     @JsonSerialize(using = GenderSerializer.class)
     private String gender;
+
+    private String sensitiveData;
 
     public PersonDTO() {
     }
@@ -78,14 +84,30 @@ public class PersonDTO {
         this.birthday = birthday;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getSensitiveData() {
+        return sensitiveData;
+    }
+
+    public void setSensitiveData(String sensitiveData) {
+        this.sensitiveData = sensitiveData;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof PersonDTO personDTO)) return false;
-        return Objects.equals(id, personDTO.id) && Objects.equals(firstname, personDTO.firstname) && Objects.equals(lastname, personDTO.lastname) && Objects.equals(address, personDTO.address) && Objects.equals(birthday, personDTO.birthday) && Objects.equals(gender, personDTO.gender);
+        return Objects.equals(id, personDTO.id) && Objects.equals(firstname, personDTO.firstname) && Objects.equals(lastname, personDTO.lastname) && Objects.equals(phoneNumber, personDTO.phoneNumber) && Objects.equals(address, personDTO.address) && Objects.equals(birthday, personDTO.birthday) && Objects.equals(gender, personDTO.gender) && Objects.equals(sensitiveData, personDTO.sensitiveData);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstname, lastname, address, birthday, gender);
+        return Objects.hash(id, firstname, lastname, phoneNumber, address, birthday, gender, sensitiveData);
     }
 }
