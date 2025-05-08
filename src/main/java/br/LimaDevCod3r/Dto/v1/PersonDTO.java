@@ -1,16 +1,25 @@
 package br.LimaDevCod3r.Dto.v1;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.util.Objects;
 
+@JsonPropertyOrder({"id","firstname","lastname","gender","address",})
 public class PersonDTO {
     private Long id;
 
+    @JsonProperty("nome")
     private String firstname;
 
+    @JsonProperty("sobrenome")
     private String lastname;
 
+    @JsonProperty("endereço")
     private String address;
 
+    @JsonIgnore
     private String gender;
 
     public PersonDTO() {
