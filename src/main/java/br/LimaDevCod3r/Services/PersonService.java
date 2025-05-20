@@ -1,5 +1,6 @@
 package br.LimaDevCod3r.Services;
 
+import br.LimaDevCod3r.Controllers.PersonController;
 import br.LimaDevCod3r.Dto.v1.PersonDTO;
 import br.LimaDevCod3r.Dto.v2.PersonDTOV2;
 import br.LimaDevCod3r.Exceptions.ResourceNotFoundException;
@@ -11,11 +12,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static br.LimaDevCod3r.Mapper.ObjectMapper.parseListObjects;
 import static br.LimaDevCod3r.Mapper.ObjectMapper.parseObject;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
 @Service
@@ -43,7 +47,11 @@ public class PersonService {
 
         var entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
-        return parseObject(entity, PersonDTO.class);
+        var dto = parseObject(entity, PersonDTO.class);
+        dto.add(linkTo(methodOn(PersonController.class)
+                .findById(id))
+                .withSelfRel().withType("GET"));
+        return dto;
     }
 
     public PersonDTO create(PersonDTO person) {

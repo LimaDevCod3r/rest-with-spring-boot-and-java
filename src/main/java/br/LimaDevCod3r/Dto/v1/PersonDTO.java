@@ -3,11 +3,13 @@ package br.LimaDevCod3r.Dto.v1;
 
 
 
+import org.springframework.hateoas.RepresentationModel;
+
 import java.util.Date;
 import java.util.Objects;
 
 
-public class PersonDTO {
+public class PersonDTO extends RepresentationModel<PersonDTO> {
     private Long id;
 
     private String firstname;
