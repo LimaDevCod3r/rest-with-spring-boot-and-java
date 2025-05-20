@@ -39,7 +39,9 @@ public class PersonService {
 
         logger.info("Finding all People!");
 
-        return parseListObjects(repository.findAll(), PersonDTO.class);
+        var dtos = parseListObjects(repository.findAll(), PersonDTO.class);
+        dtos.forEach(this::addHateoasLinks);
+        return dtos;
     }
 
     public PersonDTO findById(Long id) {
@@ -57,15 +59,10 @@ public class PersonService {
         logger.info("Creating one Person!");
         var entity = parseObject(person, Person.class);
 
-        return parseObject(repository.save(entity), PersonDTO.class);
-    }
+        var dto = parseObject(repository.save(entity), PersonDTO.class);
 
-    public PersonDTOV2 createV2(PersonDTOV2 person) {
-
-        logger.info("Creating one Person V2!");
-        var entity = converter.convertDTOToEntity(person);
-
-        return converter.convertEntityToDTO(repository.save(entity));
+        addHateoasLinks(dto);
+        return dto;
     }
 
     public PersonDTO update(PersonDTO person) {
@@ -79,7 +76,10 @@ public class PersonService {
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-        return parseObject(repository.save(entity), PersonDTO.class);
+        var dto = parseObject(repository.save(entity), PersonDTO.class);
+
+        addHateoasLinks(dto);
+        return dto;
     }
 
     public void delete(Long id) {
@@ -91,7 +91,7 @@ public class PersonService {
         repository.delete(entity);
     }
 
-    private static void addHateoasLinks(PersonDTO dto) {
+    private  void addHateoasLinks(PersonDTO dto) {
         dto.add(linkTo(methodOn(PersonController.class)
                 .findById(dto.getId()))
                 .withSelfRel().withType("GET"));
