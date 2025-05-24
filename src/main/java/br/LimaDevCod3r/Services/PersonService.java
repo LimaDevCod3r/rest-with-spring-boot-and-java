@@ -3,6 +3,7 @@ package br.LimaDevCod3r.Services;
 import br.LimaDevCod3r.Controllers.PersonController;
 import br.LimaDevCod3r.Dto.v1.PersonDTO;
 import br.LimaDevCod3r.Dto.v2.PersonDTOV2;
+import br.LimaDevCod3r.Exceptions.RequiredObjectIsNullException;
 import br.LimaDevCod3r.Exceptions.ResourceNotFoundException;
 import br.LimaDevCod3r.Mapper.Custom.PersonMapper;
 import br.LimaDevCod3r.Model.Person;
@@ -56,6 +57,8 @@ public class PersonService {
 
     public PersonDTO create(PersonDTO person) {
 
+        if(person == null) throw new RequiredObjectIsNullException();
+
         logger.info("Creating one Person!");
         var entity = parseObject(person, Person.class);
 
@@ -66,6 +69,8 @@ public class PersonService {
     }
 
     public PersonDTO update(PersonDTO person) {
+
+        if(person == null) throw new RequiredObjectIsNullException();
 
         logger.info("Updating one Person!");
         Person entity = repository.findById(person.getId())

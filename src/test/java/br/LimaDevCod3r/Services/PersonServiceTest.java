@@ -1,12 +1,12 @@
 package br.LimaDevCod3r.Services;
 
 import br.LimaDevCod3r.Dto.v1.PersonDTO;
+import br.LimaDevCod3r.Exceptions.RequiredObjectIsNullException;
 import br.LimaDevCod3r.Model.Person;
 import br.LimaDevCod3r.Repositories.PersonRepository;
 import br.LimaDevCod3r.unittest.mapper.Mocks.MockPerson;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -148,6 +148,17 @@ class PersonServiceTest {
     }
 
     @Test
+    void testCreateWithNullPerson() {
+        Exception exception = assertThrows(RequiredObjectIsNullException.class, () -> {
+            service.create(null);
+        });
+
+        String expectedMessage = "It is not allowed to persist a null object !";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
     void update() {
         Person person = input.mockEntity(1);
         Person persisted = person;
@@ -199,6 +210,17 @@ class PersonServiceTest {
         assertEquals("First Name Test1", result.getFirstname());
         assertEquals("Last Name Test1", result.getLastname());
         assertEquals("Female", result.getGender());
+    }
+
+    @Test
+    void testUpdateWithNullPerson() {
+        Exception exception = assertThrows(RequiredObjectIsNullException.class, () -> {
+            service.update(null);
+        });
+
+        String expectedMessage = "It is not allowed to persist a null object !";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test
